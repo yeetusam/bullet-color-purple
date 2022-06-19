@@ -1,0 +1,441 @@
+	game.ReplicatedStorage.ToolRemoteEvents.SMG.OnServerEvent:Connect(function(Player, Mouse, Tool)
+		if Tool.Ammo.Value >= 1 then
+
+			local GUI = Player.PlayerGui:WaitForChild("Weapons").SMG
+
+			local GoingToShootBullet = GUI.MainFrame:FindFirstChild("BulletImage")
+
+
+
+			if GoingToShootBullet then
+				GoingToShootBullet.ImageTransparency = 0.6
+
+				if Player.Character:WaitForChild("Reload").Value == false then
+					Player.Character:WaitForChild("Reload").Value = true
+					Tool.Barrel.ShootUI.Shoot.Visible = true
+					Tool.Handle.ShootLight.Enabled = true
+					Tool.Barrel.ShootUI.Shoot.ImageTransparency = 0.6
+
+					local Shoot = Instance.new("Sound")
+					Shoot.Parent = Tool.Handle
+					Shoot.SoundId = "rbxassetid://131066318"
+					Shoot:Play()
+					local EndPoint = Instance.new("Part")
+					local StartPoint = Instance.new("Part")
+
+					EndPoint.Transparency = 1
+					EndPoint.Parent = game.Workspace
+					EndPoint.Position = Mouse
+					EndPoint.Size = Vector3.new(0.5, 0.5, 0.5)
+					EndPoint.Anchored = true
+					EndPoint.CanCollide = false
+
+					StartPoint.Transparency = 1
+					StartPoint.Parent = game.Workspace
+					StartPoint.Position = Tool.Barrel.Position
+					StartPoint.Size = Vector3.new(0.5, 0.5, 0.5)
+					StartPoint.Anchored = true
+					StartPoint.CanCollide = false
+
+					local Beam = Instance.new("Beam")
+					local Attachment_0 = Instance.new("Attachment")
+					local Attachment_1 = Instance.new("Attachment")
+
+					Beam.Parent = StartPoint
+					Attachment_0.Parent = StartPoint
+					Attachment_1.Parent = EndPoint
+					Beam.Color = ColorSequence.new({ -- a color sequence shifting from white to blue
+						ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 0, 191)),
+						ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 0, 191)),
+					}
+					)
+					Beam.LightEmission = 1
+					Beam.Attachment1 = Attachment_1
+					Beam.Attachment0 = Attachment_0
+					Beam.Width0 = 0.002
+					Beam.Width1 = 0.09
+					Beam.FaceCamera = true
+					local rayDirection = Mouse
+					local rayDesti = rayDirection - Tool.Handle.Position
+
+					local Ignore = {Player.Character}
+					local ray = Ray.new(Tool.Handle.Position, rayDesti)
+
+					local Part, Position = workspace:FindPartOnRayWithIgnoreList(ray, Ignore)
+
+
+					if Position then
+						for i, v in pairs(game.Players:GetPlayers()) do
+							if v.Character and v ~= Player then
+								local dist = v:DistanceFromCharacter(Position)
+								if dist <= 5 then
+									EndPoint.Position = Part.Position
+									local function DoDamage(amount, humanoid)
+										humanoid.Health = math.clamp(humanoid.Health - amount, 0.2, humanoid.MaxHealth)
+									end
+
+									DoDamage(9, v.Character:WaitForChild("Humanoid"))
+									game.ReplicatedStorage.Blood:Fire(Position)
+								end
+							end
+						end
+					end
+
+
+
+					wait(0.02)
+					Tool.Barrel.ShootUI.Shoot.Visible = false
+					Player.Character:WaitForChild("Reload").Value = false
+					Tool.Handle.ShootLight.Enabled = false
+					wait(0.2)
+					Attachment_0:Destroy()
+					Beam:Destroy()
+					Attachment_1:Destroy()
+					EndPoint:Destroy()
+					StartPoint:Destroy()
+					wait(1)
+					Shoot:Destroy()
+
+
+
+				end
+
+			else
+				print("nothing found!")
+				Tool.Handle.NoAmmo:Play()
+			end
+		end
+	end)
+	
+	
+	
+	
+	game.ReplicatedStorage.ToolRemoteEvents.Silencer.OnServerEvent:Connect(function(Player, Mouse, Tool)
+		if Tool.Ammo.Value >= 1 then
+
+			local GUI = Player.PlayerGui:WaitForChild("Weapons").Silencer
+
+			local GoingToShootBullet = GUI.MainFrame:FindFirstChild("BulletImage")
+
+
+
+			if GoingToShootBullet then
+				GoingToShootBullet.ImageTransparency = 0.6
+
+				if Player.Character:WaitForChild("Reload").Value == false then
+					Player.Character:WaitForChild("Reload").Value = true
+					Tool.Barrel.ShootUI.Shoot.Visible = true
+					Tool.Handle.ShootLight.Enabled = true
+					Tool.Barrel.ShootUI.Shoot.ImageTransparency = 0.6
+
+					local Shoot = Instance.new("Sound")
+					Shoot.Parent = Tool.Handle
+					Shoot.SoundId = "rbxassetid://149399022"
+					Shoot:Play()
+					local EndPoint = Instance.new("Part")
+					local StartPoint = Instance.new("Part")
+
+					EndPoint.Transparency = 1
+					EndPoint.Parent = game.Workspace
+					EndPoint.Position = Mouse
+					EndPoint.Size = Vector3.new(0.5, 0.5, 0.5)
+					EndPoint.Anchored = true
+					EndPoint.CanCollide = false
+
+					StartPoint.Transparency = 1
+					StartPoint.Parent = game.Workspace
+					StartPoint.Position = Tool.Barrel.Position
+					StartPoint.Size = Vector3.new(0.5, 0.5, 0.5)
+					StartPoint.Anchored = true
+					StartPoint.CanCollide = false
+
+					local Beam = Instance.new("Beam")
+					local Attachment_0 = Instance.new("Attachment")
+					local Attachment_1 = Instance.new("Attachment")
+
+					Beam.Parent = StartPoint
+					Attachment_0.Parent = StartPoint
+					Attachment_1.Parent = EndPoint
+					Beam.Color = ColorSequence.new({ -- a color sequence shifting from white to blue
+						ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 0, 191)),
+						ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 0, 191)),
+					}
+					)
+					Beam.LightEmission = 1
+					Beam.Attachment1 = Attachment_1
+					Beam.Attachment0 = Attachment_0
+					Beam.Width0 = 0.002
+					Beam.Width1 = 0.09
+					Beam.FaceCamera = true
+					local rayDirection = Mouse
+					local rayDesti = rayDirection - Tool.Handle.Position
+
+					local Ignore = {Player.Character}
+					local ray = Ray.new(Tool.Handle.Position, rayDesti)
+
+					local Part, Position = workspace:FindPartOnRayWithIgnoreList(ray, Ignore)
+
+
+					if Position then
+						for i, v in pairs(game.Players:GetPlayers()) do
+							if v.Character and v ~= Player then
+								local dist = v:DistanceFromCharacter(Position)
+								if dist <= 5 then
+									EndPoint.Position = Part.Position
+
+									local function DoDamage(amount, humanoid)
+										humanoid.Health = math.clamp(humanoid.Health - amount, 0.2, humanoid.MaxHealth)
+									end
+
+									DoDamage(31, v.Character:WaitForChild("Humanoid"))
+									game.ReplicatedStorage.Blood:Fire(Position)
+								end
+							end
+						end
+					end
+
+
+
+					wait(0.2)
+					Tool.Barrel.ShootUI.Shoot.Visible = false
+					Player.Character:WaitForChild("Reload").Value = false
+					Tool.Handle.ShootLight.Enabled = false
+					Attachment_0:Destroy()
+					Beam:Destroy()
+					Attachment_1:Destroy()
+					EndPoint:Destroy()
+					StartPoint:Destroy()
+					wait(1)
+					Shoot:Destroy()
+
+
+
+				end
+
+			else
+				print("nothing found!")
+				Tool.Handle.NoAmmo:Play()
+			end
+		end
+	end)
+	
+	
+	
+	game.ReplicatedStorage.ToolRemoteEvents.LMG.OnServerEvent:Connect(function(Player, Mouse, Tool)
+		local GUI = Player.PlayerGui:WaitForChild("Weapons").LMG
+
+		local GoingToShootBullet = GUI.MainFrame:FindFirstChild("BulletImage")
+
+
+
+		if GoingToShootBullet then
+			GoingToShootBullet.ImageTransparency = 0.6
+
+			if Player.Character:WaitForChild("Reload").Value == false then
+				Player.Character:WaitForChild("Reload").Value = true
+				Tool.Barrel.ShootUI.Shoot.Visible = true
+				Tool.Handle.ShootLight.Enabled = true
+				Tool.Barrel.ShootUI.Shoot.ImageTransparency = 0.6
+
+				local Shoot = Instance.new("Sound")
+				Shoot.Parent = Tool.Handle
+				Shoot.SoundId = "rbxassetid://1189070051"
+				Shoot:Play()
+				local EndPoint = Instance.new("Part")
+				local StartPoint = Instance.new("Part")
+
+				EndPoint.Transparency = 1
+				EndPoint.Parent = game.Workspace
+				EndPoint.Position = Mouse
+				EndPoint.Size = Vector3.new(0.5, 0.5, 0.5)
+				EndPoint.Anchored = true
+				EndPoint.CanCollide = false
+
+				StartPoint.Transparency = 1
+				StartPoint.Parent = game.Workspace
+				StartPoint.Position = Tool.Barrel.Position
+				StartPoint.Size = Vector3.new(0.5, 0.5, 0.5)
+				StartPoint.Anchored = true
+				StartPoint.CanCollide = false
+
+				local Beam = Instance.new("Beam")
+				local Attachment_0 = Instance.new("Attachment")
+				local Attachment_1 = Instance.new("Attachment")
+
+				Beam.Parent = StartPoint
+				Attachment_0.Parent = StartPoint
+				Attachment_1.Parent = EndPoint
+				Beam.Color = ColorSequence.new({ -- a color sequence shifting from white to blue
+					ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 0, 191)),
+					ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 0, 191)),
+				}
+				)
+				Beam.LightEmission = 1
+				Beam.Attachment1 = Attachment_1
+				Beam.Attachment0 = Attachment_0
+				Beam.Width0 = 0.002
+				Beam.Width1 = 0.09
+				Beam.FaceCamera = true
+				local rayDirection = Mouse
+				local rayDesti = rayDirection - Tool.Handle.Position
+
+				local Ignore = {Player.Character}
+				local ray = Ray.new(Tool.Handle.Position, rayDesti)
+
+				local Part, Position = workspace:FindPartOnRayWithIgnoreList(ray, Ignore)
+
+
+				if Position then
+					for i, v in pairs(game.Players:GetPlayers()) do
+						if v.Character and v ~= Player then
+							local dist = v:DistanceFromCharacter(Position)
+							if dist <= 5 then
+								EndPoint.Position = Part.Position
+								local function DoDamage(amount, humanoid)
+									humanoid.Health = math.clamp(humanoid.Health - amount, 0.2, humanoid.MaxHealth)
+								end
+
+								DoDamage(13, v.Character:WaitForChild("Humanoid"))
+								game.ReplicatedStorage.Blood:Fire(Position)
+							end
+						end
+					end
+				end
+
+
+
+				wait(0.02)
+				Tool.Barrel.ShootUI.Shoot.Visible = false
+				Player.Character:WaitForChild("Reload").Value = false
+				Tool.Handle.ShootLight.Enabled = false
+				wait(0.4)
+				Attachment_0:Destroy()
+				Beam:Destroy()
+				Attachment_1:Destroy()
+				EndPoint:Destroy()
+				StartPoint:Destroy()
+				wait(1)
+				Shoot:Destroy()
+
+
+
+			end
+
+		else
+			print("nothing found!")
+			Tool.Handle.NoAmmo:Play()
+		end
+	end)
+
+
+
+
+
+
+	game.ReplicatedStorage.ToolRemoteEvents.Rev.OnServerEvent:Connect(function(Player, Mouse, Tool)
+		if Tool.Ammo.Value >= 1 then
+
+			local GUI = Player.PlayerGui:WaitForChild("Weapons").Revolver
+
+			local GoingToShootBullet = GUI.MainFrame:FindFirstChild("BulletImage")
+
+
+
+			if GoingToShootBullet then
+				GoingToShootBullet.ImageTransparency = 0.6
+
+				if Player.Character:WaitForChild("Reload").Value == false then
+					Player.Character:WaitForChild("Reload").Value = true
+					Tool.Barrel.ShootUI.Shoot.Visible = true
+					Tool.Handle.ShootLight.Enabled = true
+					Tool.Barrel.ShootUI.Shoot.ImageTransparency = 0.6
+
+					local Shoot = Instance.new("Sound")
+					Shoot.Parent = Tool.Handle
+					Shoot.SoundId = "rbxassetid://1583819337"
+					Shoot:Play()
+					local EndPoint = Instance.new("Part")
+					local StartPoint = Instance.new("Part")
+
+					EndPoint.Transparency = 1
+					EndPoint.Parent = game.Workspace
+					EndPoint.Position = Mouse
+					EndPoint.Size = Vector3.new(0.5, 0.5, 0.5)
+					EndPoint.Anchored = true
+					EndPoint.CanCollide = false
+
+					StartPoint.Transparency = 1
+					StartPoint.Parent = game.Workspace
+					StartPoint.Position = Tool.Barrel.Position
+					StartPoint.Size = Vector3.new(0.5, 0.5, 0.5)
+					StartPoint.Anchored = true
+					StartPoint.CanCollide = false
+
+					local Beam = Instance.new("Beam")
+					local Attachment_0 = Instance.new("Attachment")
+					local Attachment_1 = Instance.new("Attachment")
+
+					Beam.Parent = StartPoint
+					Attachment_0.Parent = StartPoint
+					Attachment_1.Parent = EndPoint
+					Beam.Color = ColorSequence.new({ -- a color sequence shifting from white to blue
+						ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 0, 191)),
+						ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 0, 191)),
+					}
+					)
+					Beam.LightEmission = 1
+					Beam.Attachment1 = Attachment_1
+					Beam.Attachment0 = Attachment_0
+					Beam.Width0 = 0.002
+					Beam.Width1 = 0.09
+					Beam.FaceCamera = true
+					local rayDirection = Mouse
+					local rayDesti = rayDirection - Tool.Handle.Position
+
+					local Ignore = {Player.Character}
+					local ray = Ray.new(Tool.Handle.Position, rayDesti)
+
+					local Part, Position = workspace:FindPartOnRayWithIgnoreList(ray, Ignore)
+
+
+					if Position then
+						for i, v in pairs(game.Players:GetPlayers()) do
+							if v.Character and v ~= Player then
+								local dist = v:DistanceFromCharacter(Position)
+								if dist <= 5 then
+									EndPoint.Position = Part.Position
+									local function DoDamage(amount, humanoid)
+										humanoid.Health = math.clamp(humanoid.Health - amount, 0.2, humanoid.MaxHealth)
+									end
+
+									DoDamage(28, v.Character:WaitForChild("Humanoid"))
+									game.ReplicatedStorage.Blood:Fire(Position)
+								end
+							end
+						end
+					end
+
+
+
+					wait(0.2)
+					Tool.Barrel.ShootUI.Shoot.Visible = false
+					Player.Character:WaitForChild("Reload").Value = false
+					Tool.Handle.ShootLight.Enabled = false
+					Attachment_0:Destroy()
+					Beam:Destroy()
+					Attachment_1:Destroy()
+					EndPoint:Destroy()
+					StartPoint:Destroy()
+					wait(1)
+					Shoot:Destroy()
+
+
+
+				end
+
+			else
+				print("nothing found!")
+				Tool.Handle.NoAmmo:Play()
+			end
+		end
+	end)
